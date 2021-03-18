@@ -1,5 +1,5 @@
 use Modern::Perl;
-package Orbital::Transfer::RepoPackage::APT;
+package Orbital::Payload::System::RepoPackage::APT;
 # ABSTRACT: Package in the deb file format
 
 use Mu;

@@ -1,5 +1,5 @@
 use Modern::Perl;
-package Orbital::Transfer::System::MSYS2;
+package Orbital::Payload::System::System::MSYS2;
 # ABSTRACT: System for MSYS2 + MinGW64 subsystem
 
 use Mu;

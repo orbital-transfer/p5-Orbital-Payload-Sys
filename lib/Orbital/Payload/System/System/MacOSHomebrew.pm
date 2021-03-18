@@ -1,5 +1,5 @@
 use Modern::Perl;
-package Orbital::Transfer::System::MacOSHomebrew;
+package Orbital::Payload::System::System::MacOSHomebrew;
 # ABSTRACT: macOS with homebrew
 
 use Mu;

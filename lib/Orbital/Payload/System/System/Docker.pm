@@ -1,5 +1,5 @@
 use Modern::Perl;
-package Orbital::Transfer::System::Docker;
+package Orbital::Payload::System::System::Docker;
 # ABSTRACT: Helper for Docker
 
 use Mu;

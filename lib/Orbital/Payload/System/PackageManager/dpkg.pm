@@ -1,5 +1,5 @@
 use Modern::Perl;
-package Orbital::Transfer::PackageManager::dpkg;
+package Orbital::Payload::System::PackageManager::dpkg;
 # ABSTRACT: dpkg package manager
 
 use Mu;
