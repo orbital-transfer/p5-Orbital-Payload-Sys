@@ -51,7 +51,7 @@ method _install() {
 
 	$self->runner->system(
 		$self->apt->update_command
-	);
+	) if $< == 0; # root user
 
 	my @packages = map {
 		Orbital::Payload::System::RepoPackage::APT->new( name => $_ )
