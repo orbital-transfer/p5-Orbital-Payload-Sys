@@ -122,9 +122,7 @@ lazy should_do_gcc9_workaround => method() {
 	return 0;
 };
 
-method _install() {
-	# Appveyor under MSYS2/MinGW64
-
+method _install_prep_msys2_disable_checkspace() {
 	if( $self->should_disable_checkspace ) {
 		# See <https://github.com/Alexpux/MSYS2-pacman/issues/59>.
 		# reduce time required to install packages by disabling pacman's disk space checking
@@ -138,10 +136,9 @@ EOF
 
 		$self->runner->system( $disable_checkspace_cmd )
 	}
+}
 
-	# Update keys for new packagers:
-	# See <https://www.msys2.org/news/#2020-06-29-new-packagers>,
-	# <https://github.com/msys2/MSYS2-packages/issues/2058>
+method _install_prep_update_mirror_list() {
 	my $repo_main_server = 'http://repo.msys2.org/';
 	my @repo_mirrors = (
 		$repo_main_server,
@@ -158,7 +155,12 @@ EOF
 		);
 
 	$self->runner->system( $mirror_update_cmd ) if $run_mirror_update_cmd;
+}
 
+method _install_prep_msys2_update_keys() {
+	# Update keys for new packagers:
+	# See <https://www.msys2.org/news/#2020-06-29-new-packagers>,
+	# <https://github.com/msys2/MSYS2-packages/issues/2058>
 	$self->runner->system(
 		Runnable->new(
 			command => [ qw(bash -c), <<"EOF" ],
@@ -170,8 +172,9 @@ EOF
 			environment => $self->environment,
 		)
 	);
+}
 
-
+method _install_prep_msys2_update() {
 	$self->pacman('pacman-mirrors');
 	$self->pacman('git');
 
@@ -220,14 +223,28 @@ EOF
 		} catch { };
 	}
 
-	# Fix mirrors again
-	$self->runner->system( $mirror_update_cmd ) if $run_mirror_update_cmd;
+	# Fix mirrors again after update
+	$self->_install_prep_update_mirror_list;
 
 	if( $self->should_run_update ) {
 		# Update again
 		$self->runner->$_try( system => $update_runnable );
 		$self->runner->$_try( system => $kill_msys2 );
 	}
+}
+
+method _install_prep_msys2() {
+	$self->_install_prep_msys2_disable_checkspace;
+
+	$self->_install_prep_update_mirror_list;
+
+	$self->_install_prep_msys2_update_keys;
+
+	$self->_install_prep_msys2_update;
+}
+
+method _install() {
+	$self->_install_prep_msys2;
 
 	# build tools
 	$self->pacman(qw(mingw-w64-x86_64-make mingw-w64-x86_64-toolchain autoconf automake libtool make patch mingw-w64-x86_64-libtool));
