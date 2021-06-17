@@ -34,6 +34,9 @@ lazy environment => method() {
 	# Add Homebrew gettext utilities to path
 	$env->prepend_path_list( 'PATH', [ $self->homebrew_prefix->child('opt/gettext/bin')->stringify ]  );
 
+	# TODO check if this is still necessary
+	# Only necessary if using system Perl on mac with multiple arch in ccflags
+	# <https://mail.gnome.org/archives/gtk-perl-list/2016-October/msg00004.html>
 	$env->set_string('ARCHFLAGS', '-arch x86_64' );
 
 	$env;
