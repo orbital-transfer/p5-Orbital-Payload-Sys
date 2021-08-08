@@ -1,5 +1,5 @@
 use Modern::Perl;
-package Orbital::Payload::System::System::MSYS2;
+package Orbital::Payload::Sys::System::MSYS2;
 # ABSTRACT: System for MSYS2 + MinGW64 subsystem
 
 use Mu;
@@ -63,7 +63,7 @@ lazy environment => method() {
 	delete $ENV{OPENSSL_CONF};
 	$env->set_string('OPENSSL_PREFIX', $self->msystem_base_path);
 
-	my $eumm_module = 'Orbital::Payload::Environment::Perl::System::MSWin32::EUMMnosearch';
+	my $eumm_module = 'Orbital::Payload::Env::Perl::System::MSWin32::EUMMnosearch';
 	# search @INC for module and use its path
 	my $path = path(Module::Util::find_installed($eumm_module))
 		->child( qw(..) x Module::Util::module_path_parts($eumm_module) )->realpath;
@@ -304,7 +304,7 @@ method install_packages($repo) {
 with qw(
 	Orbital::Transfer::System::Role::Config
 	Orbital::Transfer::System::Role::DefaultRunner
-	Orbital::Payload::Environment::Perl::System::Role::Perl
+	Orbital::Payload::Env::Perl::System::Role::Perl
 );
 
 1;

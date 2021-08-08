@@ -1,11 +1,11 @@
 use Modern::Perl;
-package Orbital::Payload::System::PackageManager::APT;
+package Orbital::Payload::Sys::PackageManager::APT;
 # ABSTRACT: Package manager for apt-based systems
 
 use Mu;
 use Orbital::Transfer::Common::Setup;
 use aliased 'Orbital::Transfer::Runnable';
-use Orbital::Payload::System::PackageManager::dpkg;
+use Orbital::Payload::Sys::PackageManager::dpkg;
 use List::AllUtils qw(all);
 use File::Which;
 
@@ -16,7 +16,7 @@ classmethod loadable() {
 }
 
 lazy dpkg => method() {
-	Orbital::Payload::System::PackageManager::dpkg->new(
+	Orbital::Payload::Sys::PackageManager::dpkg->new(
 		runner => $self->runner,
 	);
 };

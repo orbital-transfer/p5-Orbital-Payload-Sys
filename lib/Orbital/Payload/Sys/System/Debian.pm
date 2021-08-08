@@ -1,20 +1,20 @@
 use Modern::Perl;
-package Orbital::Payload::System::System::Debian;
+package Orbital::Payload::Sys::System::Debian;
 # ABSTRACT: Debian-based system
 
 use Mu;
 use Orbital::Transfer::Common::Setup;
-use Orbital::Payload::System::System::Debian::Meson;
-use Orbital::Payload::System::System::Docker;
+use Orbital::Payload::Sys::System::Debian::Meson;
+use Orbital::Payload::Sys::System::Docker;
 
-use Orbital::Payload::System::PackageManager::APT;
-use Orbital::Payload::System::RepoPackage::APT;
+use Orbital::Payload::Sys::PackageManager::APT;
+use Orbital::Payload::Sys::RepoPackage::APT;
 
 use Orbital::Transfer::EnvironmentVariables;
 use Object::Util magic => 0;
 
 lazy apt => method() {
-	Orbital::Payload::System::PackageManager::APT->new(
+	Orbital::Payload::Sys::PackageManager::APT->new(
 		runner => $self->runner
 	);
 };
@@ -42,7 +42,7 @@ method _pre_run() {
 }
 
 method _install() {
-	if( Orbital::Payload::System::System::Docker->is_inside_docker ) {
+	if( Orbital::Payload::Sys::System::Docker->is_inside_docker ) {
 		# create a non-root user
 		say STDERR "Creating user nonroot (this should only occur inside Docker)";
 		system(qw(useradd -m notroot));
@@ -54,7 +54,7 @@ method _install() {
 	) if $< == 0; # root user
 
 	my @packages = map {
-		Orbital::Payload::System::RepoPackage::APT->new( name => $_ )
+		Orbital::Payload::Sys::RepoPackage::APT->new( name => $_ )
 	} qw(xvfb xauth);
 	$self->runner->system(
 		$self->apt->install_packages_command(@packages)
@@ -63,7 +63,7 @@ method _install() {
 
 method install_packages($repo) {
 	my @packages = map {
-		Orbital::Payload::System::RepoPackage::APT->new( name => $_ )
+		Orbital::Payload::Sys::RepoPackage::APT->new( name => $_ )
 	} @{ $repo->debian_get_packages };
 
 	$self->runner->system(
@@ -71,7 +71,7 @@ method install_packages($repo) {
 	) if @packages && ! $self->apt->are_all_installed(@packages);
 
 	if( grep { $_->name eq 'meson' } @packages ) {
-		my $meson = Orbital::Payload::System::System::Debian::Meson->new(
+		my $meson = Orbital::Payload::Sys::System::Debian::Meson->new(
 			runner => $self->runner,
 			platform => $self,
 		);
@@ -81,7 +81,7 @@ method install_packages($repo) {
 }
 
 method process_git_path($path) {
-	if( Orbital::Payload::System::System::Docker->is_inside_docker ) {
+	if( Orbital::Payload::Sys::System::Docker->is_inside_docker ) {
 		system(qw(chown -R notroot:notroot), $path);
 	}
 }
@@ -89,8 +89,8 @@ method process_git_path($path) {
 with qw(
 	Orbital::Transfer::System::Role::Config
 	Orbital::Transfer::System::Role::DefaultRunner
-	Orbital::Payload::Environment::Perl::System::Role::PerlPathCurrent
-	Orbital::Payload::Environment::Perl::System::Role::Perl
+	Orbital::Payload::Env::Perl::System::Role::PerlPathCurrent
+	Orbital::Payload::Env::Perl::System::Role::Perl
 );
 
 1;

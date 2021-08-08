@@ -1,5 +1,5 @@
 use Modern::Perl;
-package Orbital::Payload::System::System::MacOSHomebrew;
+package Orbital::Payload::Sys::System::MacOSHomebrew;
 # ABSTRACT: macOS with homebrew
 
 use Mu;
@@ -144,8 +144,8 @@ method install_packages($repo) {
 with qw(
 	Orbital::Transfer::System::Role::Config
 	Orbital::Transfer::System::Role::DefaultRunner
-	Orbital::Payload::Environment::Perl::System::Role::PerlPathCurrent
-	Orbital::Payload::Environment::Perl::System::Role::Perl
+	Orbital::Payload::Env::Perl::System::Role::PerlPathCurrent
+	Orbital::Payload::Env::Perl::System::Role::Perl
 );
 
 1;
