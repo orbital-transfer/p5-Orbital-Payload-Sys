@@ -252,7 +252,9 @@ method _install_perl() {
 		local $ENV{PERL_MM_USE_DEFAULT} = 1;
 		$self->build_perl->script( qw(cpan App::cpanminus) );
 	}
-	$self->build_perl->script( qw(cpanm --mirror-only strict));
+	try {
+		$self->build_perl->script( qw(cpanm --mirror-only --info strict));
+	} catch {};
 	$self->build_perl->script( qw(cpanm --notest), $_ ) for (
 		# App::cpm
 		'https://github.com/orbital-transfer/cpm.git@multi-worker-win32',
