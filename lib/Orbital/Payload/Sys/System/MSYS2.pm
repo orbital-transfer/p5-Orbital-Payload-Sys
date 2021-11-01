@@ -253,7 +253,9 @@ method _install_perl() {
         local $ENV{PERL_CPANM_HOME} = $cpanm_home_dir;
 
 	$self->pacman(qw(mingw-w64-x86_64-perl));
-	$self->pacman(qw(mingw-w64-x86_64-wget)); # needed for cpanm
+	# Do not install wget right now. Currently broken (needs to be rebuilt).
+	# See <https://github.com/msys2/MINGW-packages/pull/9467#issuecomment-956517299>.
+	#$self->pacman(qw(mingw-w64-x86_64-wget)); # needed for cpanm
 	$self->build_perl->script( 'pl2bat', $self->build_perl->which_script('pl2bat') );
 	{
 		local $ENV{PERL_MM_USE_DEFAULT} = 1;
