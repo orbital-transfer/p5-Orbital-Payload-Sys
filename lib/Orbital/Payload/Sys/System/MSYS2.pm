@@ -245,6 +245,13 @@ method _install() {
 }
 
 method _install_perl() {
+        # Use shorter path particularly on Windows to avoid Win32 MAX_PATH
+        # issues.
+        my $tmpdir         = Path::Tiny->tempdir;
+        my $cpm_home_dir   = $tmpdir->child( qw(.perl-cpm) );
+        my $cpanm_home_dir = $tmpdir->child( qw(.cpanm) );
+        local $ENV{PERL_CPANM_HOME} = $cpanm_home_dir;
+
 	$self->pacman(qw(mingw-w64-x86_64-perl));
 	$self->pacman(qw(mingw-w64-x86_64-wget)); # needed for cpanm
 	$self->build_perl->script( 'pl2bat', $self->build_perl->which_script('pl2bat') );
