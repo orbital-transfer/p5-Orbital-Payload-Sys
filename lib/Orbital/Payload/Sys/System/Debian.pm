@@ -88,7 +88,7 @@ method process_git_path($path) {
 
 with qw(
 	Orbital::Transfer::System::Role::Config
-	Orbital::Transfer::System::Role::DefaultRunner
+	Orbital::Payload::Sys::System::Role::RunnerAuto
 	Orbital::Payload::Env::Perl::System::Role::PerlPathCurrent
 	Orbital::Payload::Env::Perl::System::Role::Perl
 );
