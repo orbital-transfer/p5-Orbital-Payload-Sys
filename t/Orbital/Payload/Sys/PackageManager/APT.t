@@ -30,10 +30,11 @@ subtest "dpkg package" => sub {
 		command => [ qw(dpkg --version) ]
 	) ) =~ /program version (\S+)/m;
 
-	is $version, $expected_version, 'correct version';
+	my $expected_version_re = qr/^\Q$expected_version\E/;
+	like $version, $expected_version_re, 'correct version';
 
 	my @versions = $apt->installable_versions( $package );
-	ok grep { $_ eq $expected_version } @versions, 'dpkg is up to date with installable versions';
+	ok grep( { $_ =~ $expected_version_re } @versions), 'dpkg is up to date with installable versions';
 };
 
 subtest "Non-existent package" => sub {
