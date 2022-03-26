@@ -58,7 +58,7 @@ method _install() {
 		);
 		$self->runner->system(
 			$self->apt->install_packages_command(@packages)
-		)
+		);
 	}
 }
 
@@ -67,9 +67,14 @@ method install_packages($repo) {
 		Orbital::Payload::Sys::RepoPackage::APT->new( name => $_ )
 	} @{ $repo->debian_get_packages };
 
-	$self->runner->system(
-		$self->apt->install_packages_command(@packages)
-	) if @packages && ! $self->apt->are_all_installed(@packages);
+	if(@packages && ! $self->apt->are_all_installed(@packages)) {
+		$self->runner->system(
+			$self->apt->update_command
+		);
+		$self->runner->system(
+			$self->apt->install_packages_command(@packages)
+		);
+	}
 
 	if( grep { $_->name eq 'meson' } @packages ) {
 		my $meson = Orbital::Payload::Sys::System::Debian::Meson->new(
