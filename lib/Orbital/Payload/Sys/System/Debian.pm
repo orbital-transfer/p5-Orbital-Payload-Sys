@@ -49,16 +49,17 @@ method _install() {
 		system(qw(chown -R notroot:notroot /build));
 	}
 
-	$self->runner->system(
-		$self->apt->update_command
-	) if $< == 0; # root user
-
 	my @packages = map {
 		Orbital::Payload::Sys::RepoPackage::APT->new( name => $_ )
 	} qw(xvfb xauth);
-	$self->runner->system(
-		$self->apt->install_packages_command(@packages)
-	) unless $self->apt->are_all_installed(@packages);
+	unless( $self->apt->are_all_installed(@packages) ) {
+		$self->runner->system(
+			$self->apt->update_command
+		);
+		$self->runner->system(
+			$self->apt->install_packages_command(@packages)
+		)
+	}
 }
 
 method install_packages($repo) {
