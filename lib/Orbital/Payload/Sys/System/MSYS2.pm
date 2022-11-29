@@ -2,6 +2,7 @@ use Orbital::Transfer::Common::Setup;
 package Orbital::Payload::Sys::System::MSYS2;
 # ABSTRACT: System for MSYS2 + MinGW64 subsystem
 
+use Orbital::Transfer::Common::Setup;
 use Mu;
 use Object::Util magic => 0;
 use Module::Util ();

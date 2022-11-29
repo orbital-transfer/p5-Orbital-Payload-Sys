@@ -2,6 +2,7 @@ use Orbital::Transfer::Common::Setup;
 package Orbital::Payload::Sys::System::Debian;
 # ABSTRACT: Debian-based system
 
+use Orbital::Transfer::Common::Setup;
 use Mu;
 use Orbital::Payload::Sys::System::Debian::Meson;
 use Orbital::Payload::Sys::System::Docker;

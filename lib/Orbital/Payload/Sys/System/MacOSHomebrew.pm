@@ -2,6 +2,7 @@ use Orbital::Transfer::Common::Setup;
 package Orbital::Payload::Sys::System::MacOSHomebrew;
 # ABSTRACT: macOS with homebrew
 
+use Orbital::Transfer::Common::Setup;
 use Mu;
 use IPC::System::Simple ();
 use Object::Util magic => 0;

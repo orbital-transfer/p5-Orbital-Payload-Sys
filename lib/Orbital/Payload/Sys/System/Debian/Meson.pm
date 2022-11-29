@@ -2,6 +2,7 @@ use Orbital::Transfer::Common::Setup;
 package Orbital::Payload::Sys::System::Debian::Meson;
 # ABSTRACT: Install and setup meson build system
 
+use Orbital::Transfer::Common::Setup;
 use Mu;
 use Orbital::Transfer::EnvironmentVariables;
 use aliased 'Orbital::Transfer::Runnable';

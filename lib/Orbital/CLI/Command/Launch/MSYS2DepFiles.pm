@@ -2,9 +2,9 @@ use Orbital::Transfer::Common::Setup;
 package Orbital::CLI::Command::Launch::MSYS2DepFiles;
 # ABSTRACT: List/copy MSYS2 files
 
+use Orbital::Transfer::Common::Setup;
 use Mu;
 use CLI::Osprey;
-use Path::Tiny;
 use Capture::Tiny qw(capture_stdout);
 use File::Copy;
 use YAML qw(Dump Load);

@@ -1,3 +1,4 @@
+use Orbital::Transfer::Common::Setup;
 package Orbital::Payload::Sys::System::Role::RunnerAuto;
 # ABSTRACT: Automatically choose runner
 
