@@ -1,9 +1,8 @@
-use Modern::Perl;
+use Orbital::Transfer::Common::Setup;
 package Orbital::Payload::Sys::System::Debian;
 # ABSTRACT: Debian-based system
 
 use Mu;
-use Orbital::Transfer::Common::Setup;
 use Orbital::Payload::Sys::System::Debian::Meson;
 use Orbital::Payload::Sys::System::Docker;
 

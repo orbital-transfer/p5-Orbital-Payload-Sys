@@ -1,9 +1,8 @@
-use Modern::Perl;
+use Orbital::Transfer::Common::Setup;
 package Orbital::Payload::Sys::System::Debian::Meson;
 # ABSTRACT: Install and setup meson build system
 
 use Mu;
-use Orbital::Transfer::Common::Setup;
 use Orbital::Transfer::EnvironmentVariables;
 use aliased 'Orbital::Transfer::Runnable';
 use Object::Util magic => 0;

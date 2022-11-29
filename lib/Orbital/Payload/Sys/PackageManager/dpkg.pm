@@ -1,9 +1,8 @@
-use Modern::Perl;
+use Orbital::Transfer::Common::Setup;
 package Orbital::Payload::Sys::PackageManager::dpkg;
 # ABSTRACT: dpkg package manager
 
 use Mu;
-use Orbital::Transfer::Common::Setup;
 use aliased 'Orbital::Transfer::Runnable';
 use Try::Tiny;
 

@@ -2,7 +2,6 @@ use Orbital::Transfer::Common::Setup;
 package Orbital::CLI::Command::Launch::MSYS2DepFiles;
 # ABSTRACT: List/copy MSYS2 files
 
-use Modern::Perl;
 use Mu;
 use CLI::Osprey;
 use Path::Tiny;

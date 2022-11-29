@@ -1,9 +1,8 @@
-use Modern::Perl;
+use Orbital::Transfer::Common::Setup;
 package Orbital::Payload::Sys::System::Docker;
 # ABSTRACT: Helper for Docker
 
 use Mu;
-use Orbital::Transfer::Common::Setup;
 
 classmethod _check_cgroup() {
 	my $cgroup = path('/proc/1/cgroup');

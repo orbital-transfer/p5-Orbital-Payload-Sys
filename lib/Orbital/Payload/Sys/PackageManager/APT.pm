@@ -1,4 +1,4 @@
-use Modern::Perl;
+use Orbital::Transfer::Common::Setup;
 package Orbital::Payload::Sys::PackageManager::APT;
 # ABSTRACT: Package manager for apt-based systems
 

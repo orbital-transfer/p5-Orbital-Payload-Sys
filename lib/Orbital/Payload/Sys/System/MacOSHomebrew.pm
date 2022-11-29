@@ -1,9 +1,8 @@
-use Modern::Perl;
+use Orbital::Transfer::Common::Setup;
 package Orbital::Payload::Sys::System::MacOSHomebrew;
 # ABSTRACT: macOS with homebrew
 
 use Mu;
-use Orbital::Transfer::Common::Setup;
 use IPC::System::Simple ();
 use Object::Util magic => 0;
 
