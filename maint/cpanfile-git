@@ -1,0 +1,3 @@
+requires 'Orbital::Transfer',
+	git => 'https://github.com/orbital-transfer/p5-Orbital-Transfer.git',
+	branch => 'master';
