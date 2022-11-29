@@ -7,7 +7,7 @@ use aliased 'Orbital::Transfer::Runnable';
 use Try::Tiny;
 
 method installed_version( $package ) {
-	try {
+	try_tt {
 		my ($show_output) = $self->runner->capture(
 			Runnable->new(
 				command => [ qw(dpkg-query --show), $package->name ]
@@ -18,7 +18,7 @@ method installed_version( $package ) {
 		my ($package_name, $version) = split "\t", $show_output;
 
 		$version;
-	} catch {
+	} catch_tt {
 		die "dpkg-query: no packages found matching @{[ $package->name ]}";
 	}
 }

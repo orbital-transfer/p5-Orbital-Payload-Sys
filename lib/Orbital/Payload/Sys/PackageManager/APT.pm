@@ -26,7 +26,7 @@ method installed_version( $package ) {
 }
 
 method installable_versions( $package ) {
-	try {
+	try_tt {
 		my ($show_output) = $self->runner->capture(
 			Runnable->new(
 				command => [ qw(apt-cache show), $package->name ],
@@ -36,15 +36,15 @@ method installable_versions( $package ) {
 		my @package_info = split "\n\n", $show_output;
 
 		map { /^Version: (\S+)$/ms } @package_info;
-	} catch {
+	} catch_tt {
 		die "apt-cache: Unable to locate package @{[ $package->name ]}";
 	};
 }
 
 method are_all_installed( @packages ) {
-	try {
+	try_tt {
 		all { $self->installed_version( $_ ) } @packages;
-	} catch { 0 };
+	} catch_tt { 0 };
 }
 
 method install_packages_command( @package ) {

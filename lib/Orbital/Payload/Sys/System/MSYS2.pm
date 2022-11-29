@@ -191,7 +191,7 @@ method _install_prep_msys2_update() {
 		# Ada and ObjC support were dropped by MSYS2 with GCC9. See commit
 		# <https://github.com/msys2/MINGW-packages/commit/0c60660b0cbb485fa29ea09a229cb368e2d01bae>.
 		# and broken dependencies issue in <https://github.com/msys2/MINGW-packages/issues/5434>.
-		try {
+		try_tt {
 			my @gcc9_remove = qw(
 				mingw-w64-i686-gcc-ada   mingw-w64-i686-gcc-objc
 				mingw-w64-x86_64-gcc-ada mingw-w64-x86_64-gcc-objc
@@ -202,7 +202,7 @@ method _install_prep_msys2_update() {
 					environment => $self->environment,
 				)
 			);
-		} catch { };
+		} catch_tt { };
 	}
 
 	# Fix mirrors again after update
@@ -260,9 +260,9 @@ method _install_perl() {
 		local $ENV{PERL_MM_USE_DEFAULT} = 1;
 		$self->build_perl->script( qw(cpan App::cpanminus) );
 	}
-	try {
+	try_tt {
 		$self->build_perl->script( qw(cpanm --mirror-only --info strict));
-	} catch {};
+	} catch_tt {};
 	$self->build_perl->script( qw(cpanm --notest), $_ ) for (
 		# App::cpm
 		'https://github.com/orbital-transfer/cpm.git@multi-worker-win32',
