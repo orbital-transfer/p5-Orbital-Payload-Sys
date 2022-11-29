@@ -99,8 +99,8 @@ method perl_bin_paths() {
 	my $msystem_lc = lc $self->msystem;
 	local $ENV{PATH} = join ";", @{ $self->paths }, $ENV{PATH};
 
-	chomp( my $site_bin   = `perl -MConfig -E "say \$Config{sitebin}"` );
-	chomp( my $vendor_bin = `perl -MConfig -E "say \$Config{vendorbin}"` );
+	chomp( my $site_bin   = `perl -MConfig -e "print \$Config{sitebin}"` );
+	chomp( my $vendor_bin = `perl -MConfig -e "print \$Config{vendorbin}"` );
 	my @perl_bins = ( $site_bin, $vendor_bin, '/mingw64/bin/core_perl' );
 	my @perl_bins_w;
 	for my $path_orig ( @perl_bins ) {
@@ -303,7 +303,7 @@ method choco(@packages) {
 method install_packages($repo) {
 	my @mingw_packages = @{ $repo->msys2_mingw64_get_packages };
 	my @choco_packages = @{ $repo->chocolatey_get_packages };
-	say STDERR "Installing repo native deps";
+	print STDERR "Installing repo native deps\n";
 	retry 3, 0, sub {
 		$self->pacman(@mingw_packages);
 	};

@@ -43,7 +43,7 @@ method _pre_run() {
 method _install() {
 	if( Orbital::Payload::Sys::System::Docker->is_inside_docker ) {
 		# create a non-root user
-		say STDERR "Creating user nonroot (this should only occur inside Docker)";
+		print STDERR "Creating user nonroot (this should only occur inside Docker)\n";
 		system(qw(useradd -m notroot));
 		system(qw(chown -R notroot:notroot /build));
 	}

@@ -64,7 +64,7 @@ method _pre_run() {
 method _install() {
 	local $ENV{HOMEBREW_NO_AUTO_UPDATE} = 0 + ! $self->should_run_update;
 	if( $self->should_run_update ) {
-		say STDERR "Updating homebrew";
+		print STDERR "Updating homebrew\n";
 		$self->runner->$_try( system =>
 			Runnable->new(
 				command => [ qw(brew update) ]
@@ -81,7 +81,7 @@ method _install() {
 
 	if( $self->should_install_xquartz ) {
 		# Set up for X11 support
-		say STDERR "Installing xquartz homebrew cask for X11 support";
+		print STDERR "Installing xquartz homebrew cask for X11 support\n";
 		$self->runner->$_try( system =>
 			Runnable->new(
 				command => $_
@@ -114,7 +114,7 @@ method _install() {
 method install_packages($repo) {
 	local $ENV{HOMEBREW_NO_AUTO_UPDATE} = 0 + ! $self->should_run_update;
 	my @packages = @{ $repo->homebrew_get_packages };
-	say STDERR "Installing repo native deps";
+	print STDERR "Installing repo native deps\n";
 	if( @packages ) {
 		# Skip font cache generation (for fontconfig):
 		# <https://github.com/Homebrew/homebrew-core/pull/10947#issuecomment-285946088>
@@ -131,7 +131,7 @@ method install_packages($repo) {
 			};
 			$@ ? 1 : 0;
 		} @packages;
-		say STDERR "Native deps to install: @deps_to_install";
+		print STDERR "Native deps to install: @deps_to_install\n";
 
 		if(@deps_to_install) {
 			system( qq{brew install @deps_to_install || true} );
