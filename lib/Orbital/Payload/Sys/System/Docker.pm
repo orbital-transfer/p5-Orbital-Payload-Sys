@@ -2,6 +2,7 @@ use Orbital::Transfer::Common::Setup;
 package Orbital::Payload::Sys::System::Docker;
 # ABSTRACT: Helper for Docker
 
+use Orbital::Transfer::Common::Setup;
 use Mu;
 
 classmethod _check_cgroup() {
