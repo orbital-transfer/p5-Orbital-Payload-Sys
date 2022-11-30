@@ -264,12 +264,18 @@ method _install_perl() {
 	try_tt {
 		$self->build_perl->script( qw(cpanm --mirror-only --info strict));
 	} catch_tt {};
-	$self->build_perl->script( qw(cpanm --notest), $_ ) for (
-		# App::cpm
-		'https://github.com/orbital-transfer/cpm.git@multi-worker-win32',
-		# Parallel::Pipes
-		'https://github.com/orbital-transfer/Parallel-Pipes.git@multi-worker-win32',
-	);
+	if( $ENV{ORBITAL_MSYS2_CPM_PARALLEL_FORK} ) {
+		$self->build_perl->script( qw(cpanm --notest), $_ ) for (
+			# App::cpm
+			'https://github.com/orbital-transfer/cpm.git@multi-worker-win32',
+			# Parallel::Pipes
+			'https://github.com/orbital-transfer/Parallel-Pipes.git@multi-worker-win32',
+		);
+	} else {
+		$self->build_perl->script( qw(cpanm --notest), $_ ) for (
+			'App::cpm'
+		);
+	}
 	$self->build_perl->script( qw(cpanm --notest ExtUtils::MakeMaker Module::Build App::pmuninstall) );
 	$self->build_perl->script( qw(cpanm --notest Win32::Process IO::Socket::SSL) );
 }
