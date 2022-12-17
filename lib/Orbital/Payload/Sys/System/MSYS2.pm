@@ -63,11 +63,38 @@ lazy environment => method() {
 	delete $ENV{OPENSSL_CONF};
 	$env->set_string('OPENSSL_PREFIX', $self->msystem_base_path);
 
+	# Search @INC for module and use its path:
+	#
+	# Originally this was using the path to the full `.../lib` for the part
+	# that gets sent to `perl -I` but this caused an issue once Babble is
+	# used to remove dependencies because now it was picking up all the
+	# other modules under the same `.../lib` and the modules straight out
+	# of the checkout do not have the same dependencies as what are
+	# installed within a CI which prevents using the CI on orbital-transfer
+	# itself (that is, testing itself).
+	#
+	# One fix would be to append the path to the end of the list so it is
+	# loaded last, but there isn't a flag for that nor a simple way to do
+	# that via `PERL5OPT`.
+	#
+	# So instead the simplest fix is to use the path to the last part of
+	# the module. The EUMMnosearch module would be best placed in a
+	# directory with no other module in it (TODO write test for this) and
+	# with a unique enough name (which it has) so that no other module
+	# might accidentally get loaded.
+	#
+	# NOTE This approach will not work if the module is fatpacked. In that
+	# case, the contents of `EUMMnosearch.pm` should be retrieved from @INC:
+	#   map { $_->{'.../EUMMnosearch.pm'} } first { ref($_) =~ /^FatPacked::/ } @INC;
+	# and written out to a temporary location.
+	#
+	# TODO This is highly coupled with Orbital::Payload::Env::Perl. Not
+	# good.
 	my $eumm_module = 'Orbital::Payload::Env::Perl::System::MSWin32::EUMMnosearch';
-	# search @INC for module and use its path
+	my $eumm_module_final_part = (Module::Util::module_name_parts($eumm_module))[-1];
 	my $path = path(Module::Util::find_installed($eumm_module))
-		->child( qw(..) x Module::Util::module_path_parts($eumm_module) )->realpath;
-	$env->set_string('PERL5OPT', "-I$path -M$eumm_module");
+		->child( qw(..) x Module::Util::module_path_parts($eumm_module_final_part) )->realpath;
+	$env->set_string('PERL5OPT', "-I$path -M$eumm_module_final_part");
 
 	# MSYS/MinGW pkg-config command line is more reliable since it does the
 	# needed path conversions. Note that there are three pkg-config
