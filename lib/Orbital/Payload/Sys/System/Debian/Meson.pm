@@ -53,7 +53,7 @@ method setup() {
 }
 
 method install_pip3_apt( $apt ) {
-	my $pip3 = Orbital::Payload::Sys::RepoPackage::APT->new( name => 'python3-pip' );
+	my $pip3 = Orbital::Payload::Sys::Package::Spec::APT->new( name => 'python3-pip' );
 	$self->runner->system(
 		$apt->install_packages_command( $pip3 )
 	) unless $apt->$_try( installed_version => $pip3 );
