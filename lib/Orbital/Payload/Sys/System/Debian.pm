@@ -7,14 +7,14 @@ use Mu;
 use Orbital::Payload::Sys::System::Debian::Meson;
 use Orbital::Payload::Sys::System::Docker;
 
-use Orbital::Payload::Sys::PackageManager::APT;
-use Orbital::Payload::Sys::RepoPackage::APT;
+use Orbital::Payload::Sys::Package::Tool::APT;
+use Orbital::Payload::Sys::Package::Spec::APT;
 
 use Orbital::Transfer::EnvironmentVariables;
 use Object::Util magic => 0;
 
 lazy apt => method() {
-	Orbital::Payload::Sys::PackageManager::APT->new(
+	Orbital::Payload::Sys::Package::Tool::APT->new(
 		runner => $self->runner
 	);
 };
@@ -50,7 +50,7 @@ method _install() {
 	}
 
 	my @packages = map {
-		Orbital::Payload::Sys::RepoPackage::APT->new( name => $_ )
+		Orbital::Payload::Sys::Package::Spec::APT->new( name => $_ )
 	} qw(xvfb xauth);
 	unless( $self->apt->are_all_installed(@packages) ) {
 		$self->runner->system(
@@ -64,7 +64,7 @@ method _install() {
 
 method install_packages($repo) {
 	my @packages = map {
-		Orbital::Payload::Sys::RepoPackage::APT->new( name => $_ )
+		Orbital::Payload::Sys::Package::Spec::APT->new( name => $_ )
 	} @{ $repo->debian_get_packages };
 
 	if(@packages && ! $self->apt->are_all_installed(@packages)) {

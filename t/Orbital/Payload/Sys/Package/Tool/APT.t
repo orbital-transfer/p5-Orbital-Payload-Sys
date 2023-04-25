@@ -2,12 +2,12 @@
 
 use Test::Most;
 
-use Orbital::Payload::Sys::PackageManager::APT;
+use Orbital::Payload::Sys::Package::Tool::APT;
 use Orbital::Transfer::Runner::Default;
-use Orbital::Payload::Sys::RepoPackage::APT;
+use Orbital::Payload::Sys::Package::Spec::APT;
 use aliased 'Orbital::Transfer::Runnable';
 
-if( ! Orbital::Payload::Sys::PackageManager::APT->loadable ) {
+if( ! Orbital::Payload::Sys::Package::Tool::APT->loadable ) {
 	plan skip_all => 'Test needs Debian system';
 } else {
 	plan tests => 2;
@@ -15,7 +15,7 @@ if( ! Orbital::Payload::Sys::PackageManager::APT->loadable ) {
 
 sub init {
 	my $runner = Orbital::Transfer::Runner::Default->new;
-	my $apt = Orbital::Payload::Sys::PackageManager::APT->new( runner => $runner );
+	my $apt = Orbital::Payload::Sys::Package::Tool::APT->new( runner => $runner );
 
 	($runner, $apt);
 }
@@ -23,7 +23,7 @@ sub init {
 subtest "dpkg package" => sub {
 	my ($runner, $apt) = init;
 
-	my $package = Orbital::Payload::Sys::RepoPackage::APT->new( name => 'dpkg' );
+	my $package = Orbital::Payload::Sys::Package::Spec::APT->new( name => 'dpkg' );
 	my $version = $apt->installed_version( $package );
 
 	my ($expected_version) = $runner->capture( Runnable->new(
@@ -40,7 +40,7 @@ subtest "dpkg package" => sub {
 subtest "Non-existent package" => sub {
 	my ($runner, $apt) = init;
 
-	my $package = Orbital::Payload::Sys::RepoPackage::APT->new( name => 'not-a-real-package' );
+	my $package = Orbital::Payload::Sys::Package::Spec::APT->new( name => 'not-a-real-package' );
 	throws_ok { $apt->installed_version( $package ) } qr/no packages found/;
 
 	throws_ok { $apt->installable_versions( $package ) } qr/Unable to locate package/;

@@ -1,5 +1,5 @@
 use Orbital::Transfer::Common::Setup;
-package Orbital::Payload::Sys::PackageManager::dpkg;
+package Orbital::Payload::Sys::Package::Tool::dpkg;
 # ABSTRACT: dpkg package manager
 
 use Orbital::Transfer::Common::Setup;
