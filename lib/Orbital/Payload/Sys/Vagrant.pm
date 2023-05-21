@@ -13,6 +13,7 @@ use Hash::Merge;
 
 method global_status() {
 	my ($output, $exit) = capture_stdout {
+		local $ENV{VAGRANT_CHECKPOINT_DISABLE} = 1;
 		system( qw( vagrant global-status --machine-readable ) );
 	};
 
