@@ -83,7 +83,10 @@ EOF
 		my $output = Orbital::Payload::Sys::Vagrant->new->global_status;
 		ok $output, 'got output';
 
-		my $data = Orbital::Payload::Sys::Vagrant->new->process_global_status_data($output);
+		my $data;
+		try_ok {
+			$data = Orbital::Payload::Sys::Vagrant->new->process_global_status_data($output);
+		} 'process data' or diag "vagrant output:\n$output";
 		is( $data, D() );
 	};
 };
