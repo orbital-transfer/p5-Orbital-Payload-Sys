@@ -8,7 +8,7 @@ Orbital::Payload::Sys - Payload for system components
 
 =head1 VERSION
 
-version 0.002
+version 0.002000
 
 =head1 AUTHOR
 
