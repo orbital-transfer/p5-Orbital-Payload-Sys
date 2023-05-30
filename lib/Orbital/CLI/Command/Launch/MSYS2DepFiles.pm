@@ -4,7 +4,7 @@ package Orbital::CLI::Command::Launch::MSYS2DepFiles;
 
 use Orbital::Transfer::Common::Setup;
 use Mu;
-use CLI::Osprey;
+use CLI::Osprey on_demand => 1;
 use Capture::Tiny qw(capture_stdout);
 use File::Copy;
 use YAML qw(Dump Load);
