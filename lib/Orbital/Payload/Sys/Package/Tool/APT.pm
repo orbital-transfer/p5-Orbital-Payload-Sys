@@ -6,7 +6,7 @@ use Mu;
 use Orbital::Transfer::Common::Setup;
 use aliased 'Orbital::Transfer::Runnable';
 use Orbital::Payload::Sys::Package::Tool::dpkg;
-use List::AllUtils qw(all);
+use List::Util::MaybeXS qw(all);
 use File::Which;
 
 classmethod loadable() {
