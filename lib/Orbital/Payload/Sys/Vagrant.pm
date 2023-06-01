@@ -5,7 +5,7 @@ package Orbital::Payload::Sys::Vagrant;
 use Moo;
 
 use Capture::Tiny qw(capture_stdout);
-use List::Util qw(first);
+use List::Util::MaybeXS qw(first);
 use Devel::StrictMode;
 use Carp::Assert;
 use Text::Trim qw(rtrim);
