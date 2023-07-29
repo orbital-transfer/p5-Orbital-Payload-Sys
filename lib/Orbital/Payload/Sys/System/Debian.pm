@@ -10,6 +10,8 @@ use Orbital::Payload::Sys::System::Docker;
 use Orbital::Payload::Sys::Package::Tool::APT;
 use Orbital::Payload::Sys::Package::Spec::APT;
 
+use Orbital::Payload::Sys::Service::XServer::Xvfb;
+
 use Orbital::Transfer::EnvironmentVariables;
 use Object::Util magic => 0;
 
@@ -19,22 +21,18 @@ lazy apt => method() {
 	);
 };
 
-lazy x11_display => method() {
-	':99.0';
+lazy xvfb => method() {
+	Orbital::Payload::Sys::Service::XServer::Xvfb->new;
 };
 
 lazy environment => method() {
 	Orbital::Transfer::EnvironmentVariables
 		->new
-		->$_tap( 'set_string', 'DISPLAY', $self->x11_display );
+		->$_tap( 'set_string', 'DISPLAY', $self->xvfb->x11_display );
 };
 
 method _prepare_x11() {
-	#system(qw(sh -e /etc/init.d/xvfb start));
-	unless( fork ) {
-		exec(qw(Xvfb), $self->x11_display);
-	}
-	sleep 3;
+	$self->xvfb->start;
 }
 
 method _pre_run() {
@@ -49,9 +47,7 @@ method _install() {
 		system(qw(chown -R notroot:notroot /build));
 	}
 
-	my @packages = map {
-		Orbital::Payload::Sys::Package::Spec::APT->new( name => $_ )
-	} qw(xvfb xauth);
+	my @packages = $self->xvfb->_debian_packages->@*;
 	unless( $self->apt->are_all_installed(@packages) ) {
 		$self->runner->system(
 			$self->apt->update_command
