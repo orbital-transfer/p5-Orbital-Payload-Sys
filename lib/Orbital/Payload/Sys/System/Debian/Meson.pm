@@ -8,6 +8,8 @@ use Orbital::Transfer::EnvironmentVariables;
 use aliased 'Orbital::Transfer::Runnable';
 use Object::Util magic => 0;
 
+use constant TEMP_BREAK_SYSTEM_PACKAGES_ARG => 1 ? ('--break-system-packages') : ();
+
 has platform => (
 	is => 'ro',
 	required => 1,
@@ -47,8 +49,8 @@ method setup() {
 			environment => $self->environment,
 		)
 	) for(
-		[ qw(pip3 install --user -U setuptools wheel) ],
-		[ qw(pip3 install --user -U meson) ],
+		[ qw(pip3 install), TEMP_BREAK_SYSTEM_PACKAGES_ARG(), qw(--user -U setuptools wheel) ],
+		[ qw(pip3 install), TEMP_BREAK_SYSTEM_PACKAGES_ARG(), qw(--user -U meson) ],
 	);
 }
 
